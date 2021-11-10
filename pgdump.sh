@@ -2,12 +2,23 @@
 
 # Author: Ulrich Mann
 
-tables=(
-table1
-table2
-)
+while getopts t: flag
+do
+    case "${flag}" in
+        t) tables=${OPTARG};;
+    esac
+done
+echo "Dumping tables: $tables";
 
-for i in "${tables[@]}"
+if [[ $# -eq 0 || -z "$tables" ]]; then
+    echo "Usage: sh pgdump.sh -t _t1,_t2,_t3,..."
+    exit 0
+fi
+
+
+#exit 0
+
+for i in ${tables//,/ }
 do
     echo "processing input table name $i"
 
