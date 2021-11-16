@@ -15,6 +15,8 @@ if [[ $# -eq 0 || -z "$tables" ]]; then
     exit 0
 fi
 
+backupDir=dumps/
+echo "Storing backups in $backupDir"
 
 #exit 0
 
@@ -27,9 +29,9 @@ do
     fi
 
     # dump table and optionally _diff table, if it exists
-    pg_dump dbname -h host -p port -U user -w -f $i.dump -t $i -t "$i"_diff
-    if [[ -f $i.dump ]]; then
-        gzip -f $i.dump
+    pg_dump dbname -h host -p port -U user -w -f $backupDir$i.dump -t $i -t "$i"_diff
+    if [[ -f $backupDir$i.dump ]]; then
+        gzip -f $backupDir$i.dump
     fi
 
 done
